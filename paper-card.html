@@ -111,6 +111,15 @@ Custom property | Description | Default
         @apply(--paper-card-header-image-text);
       }
 
+      :host ::content .card-header {
+        position: relative;
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
+        overflow: hidden;
+
+        @apply(--paper-card-header);
+      }
+
       :host ::content .card-content {
         padding: 16px;
         position:relative;
@@ -127,12 +136,21 @@ Custom property | Description | Default
       }
     </style>
 
-    <div class="header">
-      <iron-image hidden$="[[!image]]" src="[[image]]" preload$="[[preloadImage]]" fade$="[[fadeImage]]"></iron-image>
-      <div hidden$="[[!heading]]" class$="[[_computeHeadingClass(image)]]">[[heading]]</div>
-    </div>
+    <template is="dom-if" if="[[advanced]]" restamp="true">
+      <div class="header">
+        <content select=".card-header"></content>
+      </div>
 
-    <content></content>
+      <content select=".card-content"></content>
+      <content select=".card-actions"></content>
+    </template>
+    <template is="dom-if" if="[[!advanced]]" restamp="true">
+      <div class="header">
+        <iron-image hidden$="[[!image]]" src="[[image]]" preload$="[[preloadImage]]" fade$="[[fadeImage]]"></iron-image>
+        <div hidden$="[[!heading]]" class$="[[_computeHeadingClass(image)]]">[[heading]]</div>
+      </div>
+      <content></content>
+    </template>
   </template>
 
   <script>
@@ -140,6 +158,17 @@ Custom property | Description | Default
       is: 'paper-card',
 
       properties: {
+
+        /**
+         * Informs element to treat content as separate header and body areas, instead of default header behaviour,
+         * with property set it is possible to override header as complex as required. Card image related properties
+         * 'image', 'fadeImage' and 'preloadImage' are ignored if advanced mode is set.
+         */
+        advanced: {
+          type: Boolean,
+          value: false
+        },
+
         /**
          * The title of the card.
          */
