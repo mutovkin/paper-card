@@ -179,7 +179,7 @@ Custom property | Description | Default
       <content select=".card-actions"></content>
     </template>
     <template is="dom-if" if="[[!advanced]]" restamp="true">
-      <div class="header">
+      <div class$="header [[imageAspectRatio]] aspect-ratio">
         <iron-image hidden$="[[!image]]" src="[[image]]" preload$="[[preloadImage]]" fade$="[[fadeImage]]"
                     sizing="[[imageSizing]]" position="[[imagePosition]]" width="[[imageWidth]]"
                     height="[[imageHeight]]"></iron-image>
